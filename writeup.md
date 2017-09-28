@@ -158,9 +158,9 @@ Here's an example result showing the heatmap from a series of frames of video at
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 The initial results were quite bad because the settings of the image overlaps and the sizes of the sliding windows. After I improved these, the predictions were better but the bounding boxes were "wobbly" and more false positives started to appear.
 The solution for this was to use the averaging of the heatmap over the last ~10 frames. Also, using YCrCb colorspace seemed to have improved the results on white cars.
