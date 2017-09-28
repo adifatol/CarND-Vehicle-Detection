@@ -137,10 +137,12 @@ Ultimately I searched on three scales using YCrCb 3-channel HOG features plus sp
 ![alt text][foud_cars3]
 ---
 
+These results were improved when working on the video pipeline by updating the sliding windows sizes/overlaps.
+
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_processed_video.mp4)
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
@@ -154,11 +156,13 @@ Here's an example result showing the heatmap from a series of frames of video at
 ![alt text][heatmap1]
 ![alt text][heatmap2]
 
-
 ---
 
 ###Discussion
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The initial results were quite bad because the settings of the image overlaps and the sizes of the sliding windows. After I improved these, the predictions were better but the bounding boxes were "wobbly" and more false positives started to appear.
+The solution for this was to use the averaging of the heatmap over the last ~10 frames. Also, using YCrCb colorspace seemed to have improved the results on white cars.
+
+Probably the pipeline will fail on very close vehicles, especially when they are not fully present in the frame. Another problem seems to be the performance of the processing time, which could be improved for example by using different overlaps values based on window sizes (now all have the same value of 0.75).
