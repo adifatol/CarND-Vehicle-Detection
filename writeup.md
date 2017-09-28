@@ -38,7 +38,7 @@ You're reading it!
 
 For this project I used python scripts. The implementation is modular so we can run various steps independently.
 
-I first implemented a [feature extractor](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/faeture_extractor.py) which will extract the features HOG features and save it into the training_data folder.
+I first implemented a [feature extractor](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/feature_extractor.py) which will extract the features HOG features and save it into the training_data folder.
 
 The second script is the [trainer](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/trainer.py). This is where a SVM model is trained using the extracted features and the model parameters are saved in the same training_data folder.
 
@@ -50,9 +50,9 @@ The last script is the [video pipeline](https://github.com/adifatol/CarND-Vehicl
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+The code for this step is contained in the [feature extractor](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/feature_extractor.py) script. In the [modules](https://github.com/adifatol/CarND-Vehicle-Detection/tree/master/modules) folder there is a library [lesson functions](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/modules/lesson_functions.py) which contains the functions discussed in the lectures (`extract_features`, `get_hog_features` etc).
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+The features extractor starts by reading in all the `vehicle` and `non-vehicle` images. Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
 ![alt text][image1]
 
