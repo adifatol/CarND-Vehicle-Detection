@@ -40,8 +40,12 @@ The goals / steps of this project are the following:
 [hog_n10]: ./output_images/train_hog_features_car/orig5.png
 
 [slide1]: ./output_images/image_slide_windows/img1_far.png
-[slide2]: ./output_images/image_slide_windows/img1_med.png
+[slide2]: ./output_images/image_slide_windows/img1_med1.png
 [slide3]: ./output_images/image_slide_windows/img1_near.png
+
+[foud_cars1]: ./output_images/found_cars/img2.png
+[foud_cars2]: ./output_images/found_cars/img3.png
+[foud_cars3]: ./output_images/found_cars/img4.png
 
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
@@ -120,11 +124,15 @@ I decided to setup multiple runs with various window sizes: smaller for faraway 
 
 ![alt text][slide3]
 
+I decided to select the sizes of the windows and the overlap based on the number of predictions and false positives.
+
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on three scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
-![alt text][image4]
+![alt text][foud_cars1]
+![alt text][foud_cars2]
+![alt text][foud_cars3]
 ---
 
 ### Video Implementation
