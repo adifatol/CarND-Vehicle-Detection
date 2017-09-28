@@ -8,7 +8,7 @@
 The goals / steps of this project are the following:
 
 * Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
-* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
+* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector.
 * Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
 * Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
@@ -33,6 +33,18 @@ The goals / steps of this project are the following:
 ####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
 You're reading it!
+
+### Project Structure
+
+For this project I used python scripts. The implementation is modular so we can run various steps independently.
+
+I first implemented a [feature extractor](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/faeture_extractor.py) which will extract the features HOG features and save it into the training_data folder.
+
+The second script is the [trainer](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/trainer.py). This is where a SVM model is trained using the extracted features and the model parameters are saved in the same training_data folder.
+
+The second script is the [image pipeline](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/pipeline_img.py). This pipeline will use the trained SVM model and apply it on the test images.
+
+The last script is the [video pipeline](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/pipeline_video.py). Same as the image pipeline, this will process the project video and generate the processed one.
 
 ###Histogram of Oriented Gradients (HOG)
 
@@ -105,4 +117,3 @@ Here's an example result showing the heatmap from a series of frames of video, t
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
-
