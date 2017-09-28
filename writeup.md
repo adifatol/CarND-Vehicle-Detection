@@ -39,7 +39,10 @@ The goals / steps of this project are the following:
 [hog_n9]: ./output_images/train_hog_features_car/orig4.png
 [hog_n10]: ./output_images/train_hog_features_car/orig5.png
 
-[image3]: ./examples/sliding_windows.jpg
+[slide1]: ./output_images/image_slide_windows/img1_far.png
+[slide2]: ./output_images/image_slide_windows/img1_med.png
+[slide3]: ./output_images/image_slide_windows/img1_near.png
+
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
@@ -107,9 +110,15 @@ The trained model has an accuracy of 0.994 and after traing was saved for future
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+For sliding windows I used the slide_window function from the [lesson](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/modules/lesson_functions.py)
 
-![alt text][image3]
+I decided to setup multiple runs with various window sizes: smaller for faraway vehicles and larger for closer ones. In the next images there are some examples of this method, but after testing different sizes and overlaps in the video, the final ones have slightly different positions and sizes.
+
+![alt text][slide1]
+
+![alt text][slide2]
+
+![alt text][slide3]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
