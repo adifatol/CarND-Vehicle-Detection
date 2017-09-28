@@ -47,19 +47,21 @@ The goals / steps of this project are the following:
 [foud_cars2]: ./output_images/found_cars/img3.png
 [foud_cars3]: ./output_images/found_cars/img4.png
 
-[image4]: ./examples/sliding_window.jpg
+[heatmap1]: ./output_images/heatmap_cars/img4.png
+[heatmap2]: ./output_images/heatmap_cars/img12.png
+
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
 [image7]: ./examples/output_bboxes.png
 [video1]: ./project_video.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+### Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
 You're reading it!
 
@@ -75,9 +77,9 @@ The second script is the [image pipeline](https://github.com/adifatol/CarND-Vehi
 
 The last script is the [video pipeline](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/pipeline_video.py). Same as the image pipeline, this will process the project video and generate the processed one.
 
-###Histogram of Oriented Gradients (HOG)
+### Histogram of Oriented Gradients (HOG)
 
-####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+#### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
 The code for this step is contained in the [feature extractor](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/feature_extractor.py) script. In the [modules](https://github.com/adifatol/CarND-Vehicle-Detection/tree/master/modules) folder there is a library [lesson functions](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/modules/lesson_functions.py) which contains the functions discussed in the lectures (`extract_features`, `get_hog_features` etc).
 
@@ -98,11 +100,11 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 ![alt text][hog_n6] ![alt text][hog_n7] ![alt text][hog_n8] ![alt text][hog_n9] ![alt text][hog_n10]
 
-####2. Explain how you settled on your final choice of HOG parameters.
+#### 2. Explain how you settled on your final choice of HOG parameters.
 
 I started with the parameters from the lesson. When I finished the implementation of the full image pipeline (used on the test images) I tried various combinations of orientations, pixels per cell, spatial_size and hist_bins. For some combinations the feature extraction was faster but did not give as good results during the classification as for others. I settled with the parameters found in [spatial_configs.py](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/modules/spatial_configs.py)
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
 I trained a linear SVM using the LinearSVC class in the [trainer.py](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/trainer.py).
 
@@ -110,9 +112,9 @@ Before the actual trainig, the features previously extracted were loaded. As the
 
 The trained model has an accuracy of 0.994 and after traing was saved for future uses.
 
-###Sliding Window Search
+### Sliding Window Search
 
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
 For sliding windows I used the slide_window function from the [lesson](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/modules/lesson_functions.py)
 
@@ -126,7 +128,7 @@ I decided to setup multiple runs with various window sizes: smaller for faraway 
 
 I decided to select the sizes of the windows and the overlap based on the number of predictions and false positives.
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
 Ultimately I searched on three scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
@@ -137,26 +139,20 @@ Ultimately I searched on three scales using YCrCb 3-channel HOG features plus sp
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a [link to my video result](./project_video.mp4)
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap that I saved into a deque object. This object records the heatmaps from the last 10 frames.
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+I then averaged the heatmaps in order to filter the false positives.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.
 
-### Here are six frames and their corresponding heatmaps:
+Here's an example result showing the heatmap from a series of frames of video at various stages (cumulated `heat`):
 
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
+![alt text][heatmap1]
+![alt text][heatmap2]
 
 
 ---
