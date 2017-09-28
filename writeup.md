@@ -16,7 +16,29 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
+
+[hog_c1]: ./output_images/train_hog_features/img1.png
+[hog_c2]: ./output_images/train_hog_features/img2.png
+[hog_c3]: ./output_images/train_hog_features/img3.png
+[hog_c4]: ./output_images/train_hog_features/img4.png
+[hog_c5]: ./output_images/train_hog_features/img5.png
+[hog_c6]: ./output_images/train_hog_features/orig1.png
+[hog_c7]: ./output_images/train_hog_features/orig2.png
+[hog_c8]: ./output_images/train_hog_features/orig3.png
+[hog_c9]: ./output_images/train_hog_features/orig4.png
+[hog_c10]: ./output_images/train_hog_features/orig5.png
+
+[hog_n1]: ./output_images/train_hog_features_car/img1.png
+[hog_n2]: ./output_images/train_hog_features_car/img2.png
+[hog_n3]: ./output_images/train_hog_features_car/img3.png
+[hog_n4]: ./output_images/train_hog_features_car/img4.png
+[hog_n5]: ./output_images/train_hog_features_car/img5.png
+[hog_n6]: ./output_images/train_hog_features_car/orig1.png
+[hog_n7]: ./output_images/train_hog_features_car/orig2.png
+[hog_n8]: ./output_images/train_hog_features_car/orig3.png
+[hog_n9]: ./output_images/train_hog_features_car/orig4.png
+[hog_n10]: ./output_images/train_hog_features_car/orig5.png
+
 [image3]: ./examples/sliding_windows.jpg
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
@@ -58,18 +80,28 @@ The features extractor starts by reading in all the `vehicle` and `non-vehicle` 
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+Here is an example using the `YCrCb` color space and HOG parameters of `orientations=11`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 
-![alt text][image2]
+![alt text][hog_c1] ![alt text][hog_c2] ![alt text][hog_c3] ![alt text][hog_c4] ![alt text][hog_c5]
+
+![alt text][hog_c6] ![alt text][hog_c7] ![alt text][hog_c8] ![alt text][hog_c9] ![alt text][hog_c10]
+
+![alt text][hog_n1] ![alt text][hog_n2] ![alt text][hog_n3] ![alt text][hog_n4] ![alt text][hog_n5]
+
+![alt text][hog_n6] ![alt text][hog_n7] ![alt text][hog_n8] ![alt text][hog_n9] ![alt text][hog_n10]
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I started with the parameters from the lesson. When I finished the implementation of the full image pipeline (used on the test images) I tried various combinations of orientations, pixels per cell, spatial_size and hist_bins. For some combinations the feature extraction was faster but did not give as good results during the classification as for others. I settled with the parameters found in [spatial_configs.py](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/modules/spatial_configs.py)
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a linear SVM using the LinearSVC class in the [trainer.py](https://github.com/adifatol/CarND-Vehicle-Detection/blob/master/trainer.py).
+
+Before the actual trainig, the features previously extracted were loaded. As the features contained a combination of HOG, color_hist and bin_spatial, I used `StandardScaler` for normalization. The data contains both car and noncar features ordered as they were downloaded so the array needed shuffling. Using `StratifiedShuffleSplit`, I was able to also split the data into traing and test sets as 0.8/0.2.
+
+The trained model has an accuracy of 0.994 and after traing was saved for future uses.
 
 ###Sliding Window Search
 
