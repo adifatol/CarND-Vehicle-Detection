@@ -110,13 +110,13 @@ def draw_labeled_bboxes(img, labels):
         # Define a bounding box based on min/max x and y
         bbox = ((np.min(nonzerox), np.min(nonzeroy)), (np.max(nonzerox), np.max(nonzeroy)))
         # Draw the box on the image
-        cv2.rectangle(img, bbox[0], bbox[1], (0,155,255), 2)
+        cv2.rectangle(img, bbox[0], bbox[1], (0,50,200), 2)
     # Return the image
     return img
 
 def window_list (image, x = [0,1280], y = [0,700], w = [32,32], c = (255, 0, 0)):
     draw_image = np.copy(image)
     window_list_box = slide_window(image, x_start_stop = x, y_start_stop = y, xy_window = w,
-                                    xy_overlap=(0.2, 0.2))
+                                    xy_overlap=(0.75, 0.75))
     slide_img = draw_boxes(draw_image, window_list_box, color = c, thick=1)
     return window_list_box, slide_img
